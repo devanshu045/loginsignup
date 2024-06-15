@@ -21,10 +21,29 @@ mongoose
 
 app.post("/signup", (req, res) => {
     console.log(req.body)
-  Usermodel.create(req.body)
+     Usermodel.create(req.body)
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
 });
+
+app.post("/login", async (req, res) => {
+       try{
+        console.log(req.body)
+        const user = await Usermodel.findOne({ email: new RegExp(`^${email}$`, 'i') });
+                console.log("users",users)
+              if(users){
+                if(users.email === req.body.email){
+                   res.status(200)
+                }
+                else{
+                    res.status(404) 
+                }
+              }
+       }
+       catch{
+                res.send(500).send("Internal serverl isssue")
+       }
+})
 
 app.listen(8080, () => {
   console.log("server is listening on 8080");

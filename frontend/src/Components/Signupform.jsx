@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "tailwindcss/tailwind.css";
-import { Link } from "react-router-dom";
+import { Link , useNavigate  } from "react-router-dom";
 import axios from 'axios';
+ 
+
 
 function Signupform() {
   const [signformval, setSignformval] = useState({
@@ -13,6 +15,8 @@ function Signupform() {
     gender: "",
     dob: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChanges = (event) => {
     const { name, value } = event.target;
@@ -28,6 +32,10 @@ function Signupform() {
     axios.post("http://localhost:8080/signup", signformval)
       .then((res) => {
         console.log("Data sent successfully", res);
+        if (res.status === 200 ) {
+          navigate('/login');
+        }
+        
       })
       .catch((err) => {
         console.log("Error occurred", err);

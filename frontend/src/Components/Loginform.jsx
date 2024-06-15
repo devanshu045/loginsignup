@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import "tailwindcss/tailwind.css";
-import { Link } from "react-router-dom";
-import { Axios } from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import  axios from "axios";
 
 function Loginform() {
   const [valobj, setValObj] = useState({
     Email: "",
     Password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChanges = (event) => {
     const { name, value } = event.target;
@@ -19,14 +21,15 @@ function Loginform() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    Axios.post("http://localhost:8080/login", valobj)
+    axios.post("http://localhost:8080/login", valobj)
       .then((res) => {
         console.log("data send done",res);
+        navigate("/home")
+
       })
       .catch((err) => {
         console.log("some error",err);
       });
-    console.log("Form Submitted:", valobj);
   };
 
   return (
